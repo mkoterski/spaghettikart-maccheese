@@ -176,10 +176,17 @@ echo "   ✅ mk64.o2r ($(du -h "$BUNDLE/Contents/Resources/mk64.o2r" | cut -f1))
 cp "$SPAGHETTI_O2R" "$BUNDLE/Contents/Resources/spaghetti.o2r"
 echo "   ✅ spaghetti.o2r ($(du -h "$BUNDLE/Contents/Resources/spaghetti.o2r" | cut -f1))" | tee -a "$LOGFILE"
 
-# Copy existing config if present
-[[ -f "$BUILD_DIR/spaghettify.cfg.json" ]] && \
-  cp "$BUILD_DIR/spaghettify.cfg.json" "$BUNDLE/Contents/Resources/spaghettify.cfg.json" && \
-  echo "   ✅ spaghettify.cfg.json" | tee -a "$LOGFILE" || true
+# Copy existing config if present — note: with NON_PORTABLE=OFF the game
+# reads ~/spaghettify.cfg.json, not this bundled copy. We include it in the
+# bundle as a reference/backup only.
+for cfg_candidate in "$HOME/spaghettify.cfg.json" "$BUILD_DIR/spaghettify.cfg.json"; do
+  if [[ -f "$cfg_candidate" ]]; then
+    cp "$cfg_candidate" "$BUNDLE/Contents/Resources/spaghettify.cfg.json"
+    echo "   ✅ spaghettify.cfg.json (reference copy from ${cfg_candidate/$HOME/~})" | tee -a "$LOGFILE"
+    echo "      ⚠️  Game reads ~/spaghettify.cfg.json at runtime (NON_PORTABLE=OFF)" | tee -a "$LOGFILE"
+    break
+  fi
+done
 
 # Copy mods if any exist
 if compgen -G "$BUILD_DIR/mods/*" &>/dev/null 2>&1 || [[ -d "$BUILD_DIR/mods" && "$(ls -A "$BUILD_DIR/mods" 2>/dev/null)" ]]; then

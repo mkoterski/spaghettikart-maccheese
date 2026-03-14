@@ -17,7 +17,7 @@ Follows the same conventions as
 ## Requirements
 
 - Intel Mac (x86_64)
-- macOS 10.9 or later (tested on Tahoe 26.x)
+- macOS 10.9 or later (tested on Tahoe 26.3.1, MacBookPro16,2)
 - Internet connection (first run only)
 - A Mario Kart 64 US ROM (see above)
 
@@ -51,32 +51,33 @@ cp /path/to/your/mk64.z64 roms/mk64.us.z64
 
 ## Scripts
 
-| Script | Purpose |
-|---|---|
-| `spmc-initial-setup.sh` | One-time setup: Xcode CLT, Homebrew, packages, ROM validation |
-| `spmc-build.sh` | Clone upstream, configure cmake+Ninja, extract assets, compile |
-| `spmc-bundle.sh` | Wrap binary as `SpaghettiKart MacCheese.app` |
-| `spmc-package.sh` | Create distributable `.dmg` |
-| `run-spmc-macos.sh` | Launch game (config backup, backend selection) |
-| `spmc-sysinfo.sh` | System snapshot for bug reports |
-| `spmc-collect-crash.sh` | Collect macOS crash reports |
+| Script | Version | Purpose |
+|---|---|---|
+| `spmc-initial-setup.sh` | v0.10 | One-time setup: Xcode CLT, Homebrew, 16 packages, ROM validation |
+| `spmc-build.sh` | v0.12 | Clone upstream, configure cmake+Ninja, extract assets, compile |
+| `spmc-bundle.sh` | v0.10 | Wrap binary as `SpaghettiKart MacCheese.app` |
+| `spmc-package.sh` | v0.10 | Create distributable `.dmg` |
+| `run-spmc-macos.sh` | v0.15 | Launch game (OpenGL backend patch, config backup) |
+| `spmc-sysinfo.sh` | v0.10 | System snapshot for bug reports |
+| `spmc-collect-crash.sh` | v0.10 | Collect macOS crash reports |
 
 ---
 
 ## Config File Location
 
+> **This is the single most important thing to know when debugging SpaghettiKart on macOS.**
+
 The game's config file lives at **`~/spaghettify.cfg.json`** (your home directory),
-NOT in the build folder. This is because the game is built with `NON_PORTABLE=OFF`.
+**NOT** in the build folder. This is because the game is built with `NON_PORTABLE=OFF`.
+There may be stale copies at other locations that the game ignores:
 
-The run script automatically patches this file to force OpenGL before each launch.
-Backups are stored in `logs/spaghettify.cfg.json.backup-<timestamp>`.
+```zsh
+# Find ALL config files — the game reads from ~/ on macOS
+find ~ -maxdepth 3 -name "spaghettify.cfg.json" 2>/dev/null
+```
 
-> **Finding the config:** If the game ignores your settings, check for duplicate
-> config files:
-> ```zsh
-> find ~ -maxdepth 3 -name "spaghettify.cfg.json" 2>/dev/null
-> ```
-> The game reads whichever file libultraship resolves first — typically `~/`.
+The run script automatically patches `~/spaghettify.cfg.json` to force OpenGL
+before each launch. Backups are stored in `logs/spaghettify.cfg.json.backup-<timestamp>`.
 
 ---
 
@@ -85,13 +86,21 @@ Backups are stored in `logs/spaghettify.cfg.json.backup-<timestamp>`.
 SpaghettiKart supports both **OpenGL** and **Metal** on macOS. The backend enum
 values come from `libultraship/include/ship/window/Window.h`:
 
-| Backend | Id | Notes |
-|---|---|---|
-| DX11 | 0 | Windows only |
-| OpenGL | 1 | **Default for Intel Mac** — safest on older Intel GPUs |
-| Metal | 2 | Upstream macOS default — crashes on Intel Iris Plus GPUs |
+```cpp
+enum class WindowBackend { FAST3D_DXGI_DX11, FAST3D_SDL_OPENGL, FAST3D_SDL_METAL, WINDOW_BACKEND_COUNT };
+```
 
-The run script defaults to OpenGL and patches `spaghettify.cfg.json` before
+| Backend | Id | Config key | Notes |
+|---|---|---|---|
+| DX11 | 0 | `"Id": 0` | Windows only |
+| **OpenGL** | **1** | **`"Id": 1`** | **Default for Intel Mac** — safest on Intel GPUs |
+| Metal | 2 | `"Id": 2` | Upstream macOS default — crashes on Intel Iris Plus |
+
+> **Important:** The config JSON key is `"Id"` (capital I), not `"id"`.
+> The game ignores lowercase `"id"`. The config path is `Window.Backend.Id` in
+> the dot-notation used by libultraship's config system internally.
+
+The run script defaults to OpenGL and patches `~/spaghettify.cfg.json` before
 launch. Switch backends with flags:
 
 ```zsh
@@ -100,12 +109,49 @@ launch. Switch backends with flags:
 ./run-spmc-macos.sh --opengl     # explicitly force OpenGL
 ```
 
-If the game crashes on startup, try the other backend. You can also edit
-`~/spaghettify.cfg.json` directly — change `"Backend"` → `"Id"` value (capital I).
+To edit manually: open `~/spaghettify.cfg.json` and change `"Window"` → `"Backend"` → `"Id"` value.
 
-> **Note:** The config file lives at `~/spaghettify.cfg.json` (your home
-> directory), not in the build folder. This is because the game is built with
-> `NON_PORTABLE=OFF`.
+---
+
+## ROM Handling
+
+The ROM goes in `roms/mk64.us.z64` in the wrapper repo root. The build script
+copies it to `SpaghettiKart/baserom.us.z64` — the exact filename the upstream
+Torch asset extractor expects. Do not rename it to anything else in the
+SpaghettiKart directory.
+
+```
+roms/mk64.us.z64                        ← you place it here
+  ↓ (copied by spmc-build.sh)
+SpaghettiKart/baserom.us.z64            ← Torch reads it from here
+  ↓ (ExtractAssets cmake target)
+SpaghettiKart/build-cmake/mk64.o2r      ← extracted game assets
+SpaghettiKart/build-cmake/spaghetti.o2r ← engine assets
+```
+
+---
+
+## Build Notes
+
+### SDL2 Framework Conflict
+
+If you have `SDL2.framework` installed at `/Library/Frameworks/` (e.g. from
+perfectdark-macvanta or another project), its bundled `sdl2-config.cmake`
+references `/Library/Headers` which doesn't exist on modern macOS. The build
+script works around this with:
+
+```
+-DCMAKE_PREFIX_PATH=$(brew --prefix)
+-DCMAKE_FIND_FRAMEWORK=LAST
+```
+
+This forces cmake to find the Homebrew `sdl2` package first, avoiding the
+broken framework config.
+
+### Build Times
+
+First build: ~20–30 minutes (Torch + libultraship + SpaghettiKart, 549 compilation units).
+Subsequent rebuilds with `--skip-deps`: ~2–5 minutes (only changed files recompile).
 
 ---
 
@@ -143,6 +189,10 @@ After building, create a distributable `.dmg`:
 The DMG features a drag-to-Applications layout with a tomato-red/black
 spaghetti-themed background.
 
+> **Note:** The bundled `.app` still reads config from `~/spaghettify.cfg.json`
+> at runtime (NON_PORTABLE=OFF build). The config file in the bundle is a
+> reference copy only.
+
 ---
 
 ## Known Issues (Intel Mac)
@@ -150,8 +200,9 @@ spaghetti-themed background.
 | Issue | Backend | Status |
 |---|---|---|
 | Black screen + SIGFPE crash on track load | Metal (Id 2) | Upstream bug — Metal rendering fails on Intel Iris Plus |
-| Crash on track load (menus render fine) | OpenGL (Id 1) | Upstream bug — OpenGL context may hit deprecated codepath on Tahoe |
+| Crash on track load (menus render fine) | OpenGL (Id 1) | Upstream bug — OpenGL rendering hits crash on track geometry load |
 | `gamecontrollerdb.txt` not found warning | Both | Cosmetic — does not affect gameplay |
+| Settings menu greyed out with Metal | Metal | Cannot switch backend in-game when Metal fails to render |
 
 Both rendering crashes are upstream issues in HarbourMasters/SpaghettiKart and
 cannot be fixed in the wrapper scripts. File bug reports at:
@@ -166,12 +217,14 @@ Attach the output of `./spmc-collect-crash.sh` (bundles crash reports + system i
 ```
 ❌ No ROM       → cp /path/to/mk64.z64 roms/mk64.us.z64
 ❌ Build fails  → tail -40 logs/build-*.log
-❌ Black screen → Metal on Intel — game forces OpenGL via run script
+❌ SDL2 cmake   → brew reinstall sdl2 (framework conflict handled by build script)
+❌ Black screen → Metal on Intel — run script forces OpenGL automatically
 ❌ Track crash  → Upstream bug on Intel GPUs — file issue with crash report
 ❌ dyld error   → brew reinstall sdl2 glew
 ❌ Gatekeeper   → xattr -cr "/path/to/SpaghettiKart MacCheese.app"
 ❌ Stale config → ./run-spmc-macos.sh --restore-cfg
 ❌ Wrong config → find ~ -maxdepth 3 -name "spaghettify.cfg.json"
+❌ Still Metal  → Check ~/spaghettify.cfg.json has "Id": 1 (capital I, value 1)
 ```
 
 Logs live in `logs/` at the project root (not inside `SpaghettiKart/`).
@@ -181,6 +234,7 @@ Config lives at `~/spaghettify.cfg.json` (not in the build folder).
 ls -lt logs/*.log | head -5       # list latest logs
 tail -20 logs/build-*.log         # build issues
 file SpaghettiKart/build-cmake/Spaghettify   # should be: Mach-O 64-bit x86_64
+cat ~/spaghettify.cfg.json | python3 -m json.tool | grep -A2 Backend  # verify backend
 ```
 
 For bug reports, collect crash data and system info:
@@ -203,6 +257,19 @@ working on a clean Intel Mac running macOS Tahoe.
 (setup → build → extract → compile → launch with OpenGL). Game menus render
 correctly with OpenGL backend. Track-load crash is an upstream rendering bug
 on Intel Iris Plus GPUs — pending fix from HarbourMasters.
+
+---
+
+## Lessons Learned
+
+Notes from the debugging process that may help future ports:
+
+1. **libultraship config path**: With `NON_PORTABLE=OFF`, config writes to `~/`, not the build directory. Multiple stale config files at different paths will cause confusion.
+2. **Backend enum values**: Don't trust the upstream README — read the actual enum in `libultraship/include/ship/window/Window.h`. The values are `{DX11=0, OpenGL=1, Metal=2}`, not `{DX11=2, OpenGL=3, Metal=4}` as the README suggests.
+3. **Config key capitalization**: `"Id"` (capital I), not `"id"`. The game silently ignores lowercase.
+4. **SDL2 framework vs Homebrew**: `/Library/Frameworks/SDL2.framework` has a broken `sdl2-config.cmake` on modern macOS. Use `CMAKE_FIND_FRAMEWORK=LAST` to prefer Homebrew.
+5. **ROM filename**: Upstream Torch expects `baserom.us.z64` in the repo root — not `mk64.us.z64` or any other name.
+6. **Metal on Intel**: Metal "supports" Intel Iris Plus but renders a black screen and crashes with `EXC_ARITHMETIC (SIGFPE)` on track load. Always default to OpenGL on Intel Macs.
 
 ---
 
