@@ -1,0 +1,344 @@
+🔨 spmc-build.sh v0.11 — Sat Mar 14 10:03:47 CET 2026
+   Log: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/logs/build-20260314-1003.log
+
+📦 Step 1: Homebrew dependencies
+   ✅ cmake 4.2.3
+   ✅ ninja 1.13.2
+   ✅ git 2.53.0
+   ✅ python@3.14 3.14.3_1
+   ✅ sdl2 2.32.10
+   ✅ sdl2_net 2.2.0
+   ✅ libpng 1.6.55
+   ✅ glew 2.3.1
+   ✅ nlohmann-json 3.12.0
+   ✅ libzip 1.11.4_1
+   ✅ tinyxml2 11.0.0
+   ✅ spdlog 1.17.0
+   ✅ boost 1.90.0_1
+   ✅ libogg 1.3.6
+   ✅ libvorbis 1.3.7
+   ✅ vorbis-tools 1.4.3
+
+🔧 Step 2: Xcode CLT
+   ✅ /Library/Developer/CommandLineTools
+
+📥 Step 3: Clone / update HarbourMasters/SpaghettiKart
+   Repo exists — pulling latest...
+Fetching submodule doxygen-awesome-css
+Fetching submodule libultraship
+Fetching submodule tools/blender/fast64
+Fetching submodule torch
+Already up to date.
+
+🎮 Step 4: ROM
+   ✅ ROM already in place:  12M
+
+⚙️  Step 5: CMake configure (Ninja, x86_64, Release)
+   Homebrew prefix: /usr/local
+-- The C compiler identification is AppleClang 17.0.0.17000604
+-- The CXX compiler identification is AppleClang 17.0.0.17000604
+-- The ASM compiler identification is AppleClang
+-- Found assembler: /usr/bin/cc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Spaghetti Kart version: 0 Alfa
+-- The OBJCXX compiler identification is AppleClang 17.0.0.17000604
+-- Detecting OBJCXX compiler ABI info
+-- Detecting OBJCXX compiler ABI info - done
+-- Check for working OBJCXX compiler: /usr/bin/c++ - skipped
+CMake Deprecation Warning at build-cmake/_deps/prism-src/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Found GLEW: /usr/local/lib/cmake/glew/glew-config.cmake
+-- Found nlohmann_json: /usr/local/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake (found version "3.12.0")
+-- Found Ogg: /usr/local/lib/libogg.dylib (found version "1.3.6")
+-- Found Vorbis: /usr/local/lib/libvorbis.dylib (found version "1.3.7")
+-- Configuring done (74.5s)
+-- Generating done (0.2s)
+-- Build files have been written to: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake
+
+📦 Step 6: Extract assets (mk64.o2r + spaghetti.o2r)
+[0/2] Re-checking globbed directories...
+[1/10] Creating directories for 'TorchExternal'
+[2/10] No download step for 'TorchExternal'
+[3/10] No update step for 'TorchExternal'
+[4/10] No patch step for 'TorchExternal'
+[5/10] Performing configure step for 'TorchExternal'
+-- The C compiler identification is AppleClang 17.0.0.17000604
+-- The CXX compiler identification is AppleClang 17.0.0.17000604
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Build spdlog: 1.12.0
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Build type: Release
+-- Configuring done (14.6s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build
+[6/10] Performing build step for 'TorchExternal'
+[0/2] Re-checking globbed directories...
+[1/155] Building C object lib/n64graphics/CMakeFiles/N64Graphics.dir/n64graphics.c.o
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/lib/n64graphics/n64graphics.c:849:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  849 | }
+      | ^
+1 warning generated.
+[2/155] Building C object lib/n64graphics/CMakeFiles/N64Graphics.dir/stb_image_write.c.o
+[3/155] Building CXX object lib/binarytools/CMakeFiles/BinaryTools.dir/Stream.cpp.o
+[4/155] Building CXX object lib/binarytools/CMakeFiles/BinaryTools.dir/MemoryStream.cpp.o
+[5/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/binary.cpp.o
+[6/155] Building CXX object lib/binarytools/CMakeFiles/BinaryTools.dir/BinaryReader.cpp.o
+[7/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/contrib/graphbuilder.cpp.o
+[8/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/contrib/graphbuilderadapter.cpp.o
+[9/155] Building CXX object lib/binarytools/CMakeFiles/BinaryTools.dir/BinaryWriter.cpp.o
+[10/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/directives.cpp.o
+[11/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/depthguard.cpp.o
+[12/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/convert.cpp.o
+[13/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emit.cpp.o
+[14/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitterstate.cpp.o
+[15/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitfromevents.cpp.o
+[16/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitter.cpp.o
+[17/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/exceptions.cpp.o
+[18/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/null.cpp.o
+[19/155] Building C object lib/n64graphics/CMakeFiles/N64Graphics.dir/stb_image.c.o
+[20/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/emitterutils.cpp.o
+[21/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/exp.cpp.o
+[22/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/node.cpp.o
+[23/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/memory.cpp.o
+[24/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/fptostring.cpp.o
+[25/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/nodeevents.cpp.o
+[26/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/ostream_wrapper.cpp.o
+[27/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/nodebuilder.cpp.o
+[28/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/node_data.cpp.o
+[29/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/parse.cpp.o
+[30/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/parser.cpp.o
+[31/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/regex_yaml.cpp.o
+[32/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scanscalar.cpp.o
+[33/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scantag.cpp.o
+[34/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/simplekey.cpp.o
+[35/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scanner.cpp.o
+[36/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/stream.cpp.o
+[37/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/tag.cpp.o
+[38/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/scantoken.cpp.o
+[39/155] Building CXX object CMakeFiles/torch.dir/lib/strhash64/StrHash64.cpp.o
+[40/155] Building CXX object _deps/yaml-cpp-build/CMakeFiles/yaml-cpp.dir/src/singledocparser.cpp.o
+[41/155] Building CXX object _deps/tinyxml2-build/CMakeFiles/tinyxml2.dir/tinyxml2.cpp.o
+[42/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/stdout_sinks.cpp.o
+[43/155] Building CXX object CMakeFiles/torch.dir/src/archive/BinaryWrapper.cpp.o
+[44/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/file_sinks.cpp.o
+[45/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/color_sinks.cpp.o
+[46/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/cfg.cpp.o
+[47/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/async.cpp.o
+[48/155] Building CXX object CMakeFiles/torch.dir/src/factories/BaseFactory.cpp.o
+[49/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/bundled_fmtlib_format.cpp.o
+[50/155] Building CXX object CMakeFiles/torch.dir/src/archive/SWrapper.cpp.o
+[51/155] Building CXX object CMakeFiles/torch.dir/src/factories/BlobFactory.cpp.o
+[52/155] Building CXX object _deps/spdlog-build/CMakeFiles/spdlog.dir/src/spdlog.cpp.o
+[53/155] Building CXX object CMakeFiles/torch.dir/src/factories/FloatFactory.cpp.o
+[54/155] Building CXX object CMakeFiles/torch.dir/src/factories/AssetArrayFactory.cpp.o
+[55/155] Building CXX object CMakeFiles/torch.dir/src/archive/ZWrapper.cpp.o
+[56/155] Building CXX object CMakeFiles/torch.dir/src/factories/IncludeFactory.cpp.o
+[57/155] Building CXX object CMakeFiles/torch.dir/src/factories/DisplayListFactory.cpp.o
+[58/155] Building CXX object CMakeFiles/torch.dir/src/factories/DisplayListOverrides.cpp.o
+[59/155] Building CXX object CMakeFiles/torch.dir/src/factories/CompressedTextureFactory.cpp.o
+[60/155] Building CXX object CMakeFiles/torch.dir/src/factories/GenericArrayFactory.cpp.o
+[61/155] Building CXX object CMakeFiles/torch.dir/src/factories/Vec3fFactory.cpp.o
+[62/155] Building CXX object CMakeFiles/torch.dir/src/factories/Vec3sFactory.cpp.o
+[63/155] Building CXX object CMakeFiles/torch.dir/src/factories/LightsFactory.cpp.o
+[64/155] Building CXX object CMakeFiles/torch.dir/src/factories/ViewportFactory.cpp.o
+[65/155] Building CXX object CMakeFiles/torch.dir/src/factories/VtxFactory.cpp.o
+[66/155] Building CXX object CMakeFiles/torch.dir/src/factories/MtxFactory.cpp.o
+[67/155] Building CXX object CMakeFiles/torch.dir/src/factories/fzerox/EADAnimationFactory.cpp.o
+[68/155] Building CXX object CMakeFiles/torch.dir/src/factories/fzerox/EADLimbFactory.cpp.o
+[69/155] Building CXX object CMakeFiles/torch.dir/src/factories/TextureFactory.cpp.o
+[70/155] Building CXX object CMakeFiles/torch.dir/src/factories/mario_artist/MA2D1Factory.cpp.o
+[71/155] Building CXX object CMakeFiles/torch.dir/src/factories/fzerox/CourseFactory.cpp.o
+[72/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/CourseVtx.cpp.o
+[73/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/CourseMetadata.cpp.o
+[74/155] Building CXX object CMakeFiles/torch.dir/src/factories/fzerox/GhostRecordFactory.cpp.o
+[75/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/DrivingBehaviour.cpp.o
+[76/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/ItemCurve.cpp.o
+[77/155] Building CXX object CMakeFiles/torch.dir/src/factories/fzerox/SequenceFactory.cpp.o
+[78/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v0/AIFCDecode.cpp.o
+[79/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/Paths.cpp.o
+[80/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/SpawnData.cpp.o
+[81/155] Building CXX object CMakeFiles/torch.dir/src/factories/fzerox/SoundFontFactory.cpp.o
+[82/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/PackedDisplayListFactory.cpp.o
+[83/155] Building CXX object CMakeFiles/torch.dir/src/Companion.cpp.o
+In file included from /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/Companion.cpp:40:
+In file included from /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/MacroFactory.h:5:
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/macro/MacroPresets.h:379:13: warning: enumeration value 'macro_invalid' not handled in switch [-Wswitch]
+  379 |     switch (preset) {
+      |             ^~~~~~
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/macro/MacroPresets.h:379:13: note: add missing switch cases
+  379 |     switch (preset) {
+      |             ^
+1 warning generated.
+[84/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/UnkSpawnData.cpp.o
+[85/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v0/AudioHeaderFactory.cpp.o
+[86/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v0/BankFactory.cpp.o
+[87/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v0/SequenceFactory.cpp.o
+[88/155] Building CXX object CMakeFiles/torch.dir/src/factories/mk64/TrackSections.cpp.o
+[89/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/AudioConverter.cpp.o
+[90/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v0/SampleFactory.cpp.o
+[91/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/BookFactory.cpp.o
+[92/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/DrumFactory.cpp.o
+[93/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/EnvelopeFactory.cpp.o
+[94/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/AudioContext.cpp.o
+[95/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/InstrumentFactory.cpp.o
+[96/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/LoopFactory.cpp.o
+[97/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/SequenceFactory.cpp.o
+[98/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/AudioTableFactory.cpp.o
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/naudio/v1/AudioTableFactory.cpp:141:17: warning: enumeration value 'SAMPLE_TABLE' not handled in switch [-Wswitch]
+  141 |         switch (type) {
+      |                 ^~~~
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/naudio/v1/AudioTableFactory.cpp:141:17: note: add missing switch cases
+  141 |         switch (type) {
+      |                 ^
+1 warning generated.
+[99/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/SampleFactory.cpp.o
+[100/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v0/AudioManager.cpp.o
+[101/155] Building CXX object CMakeFiles/torch.dir/src/factories/naudio/v1/SoundFontFactory.cpp.o
+[102/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/EnvironmentFactory.cpp.o
+[103/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/HitboxFactory.cpp.o
+[104/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/ObjInitFactory.cpp.o
+[105/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/audio/AudioDecompressor.cpp.o
+[106/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/AnimFactory.cpp.o
+[107/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/ColPolyFactory.cpp.o
+[108/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/MessageLookupFactory.cpp.o
+[109/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/TriangleFactory.cpp.o
+[110/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/ScriptFactory.cpp.o
+[111/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/SkeletonFactory.cpp.o
+[112/155] Building CXX object CMakeFiles/torch.dir/src/factories/sf64/MessageFactory.cpp.o
+[113/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/AnimationFactory.cpp.o
+[114/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/CollisionFactory.cpp.o
+[115/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/DialogFactory.cpp.o
+[116/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/BehaviorScriptFactory.cpp.o
+[117/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/DictionaryFactory.cpp.o
+[118/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/TextFactory.cpp.o
+[119/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/MacroFactory.cpp.o
+In file included from /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/MacroFactory.cpp:1:
+In file included from /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/MacroFactory.h:5:
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/macro/MacroPresets.h:379:13: warning: enumeration value 'macro_invalid' not handled in switch [-Wswitch]
+  379 |     switch (preset) {
+      |             ^~~~~~
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/factories/sm64/macro/MacroPresets.h:379:13: note: add missing switch cases
+  379 |     switch (preset) {
+      |             ^
+1 warning generated.
+[120/155] Building CXX object CMakeFiles/torch.dir/src/lib/web.cpp.o
+[121/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/PaintingMapFactory.cpp.o
+[122/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/MovtexFactory.cpp.o
+[123/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/geo/GeoUtils.cpp.o
+[124/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/TrajectoryFactory.cpp.o
+[125/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/LevelScriptFactory.cpp.o
+[126/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/MovtexQuadFactory.cpp.o
+[127/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/PaintingFactory.cpp.o
+[128/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/GeoLayoutFactory.cpp.o
+[129/155] Building CXX object CMakeFiles/torch.dir/src/n64/Cartridge.cpp.o
+[130/155] Building C object CMakeFiles/torch.dir/lib/libmio0/mio0.c.o
+[131/155] Building C object CMakeFiles/torch.dir/lib/libmio0/utils.c.o
+[132/155] Building C object CMakeFiles/torch.dir/lib/libmio0/tkmk00.c.o
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/lib/libmio0/tkmk00.c:75:21: warning: assigning to 'uint8_t *' (aka 'unsigned char *') from 'const uint8_t *' (aka 'const unsigned char *') discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+   75 |        some_ptrs[i] = tkmk + offset;
+      |                     ^ ~~~~~~~~~~~~~
+1 warning generated.
+[133/155] Building C object CMakeFiles/torch.dir/lib/libyay0/yay0.c.o
+[134/155] Building C object CMakeFiles/torch.dir/lib/libyay0/yay1.c.o
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/lib/libyay0/yay1.c:225:16: warning: passing 'const uint8_t *' (aka 'const unsigned char *') to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  225 |     if(strncmp(in, "Yay1", 4) != 0){
+      |                ^~
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_string.h:101:49: note: passing argument to parameter '__s1' here
+  101 | int      strncmp(const char *_LIBC_UNSAFE_INDEXABLE __s1,
+      |                                                     ^
+1 warning generated.
+[135/155] Building C object CMakeFiles/torch.dir/_deps/libgfxd-src/gfxd.c.o
+[136/155] Building CXX object CMakeFiles/torch.dir/src/utils/TextureUtils.cpp.o
+[137/155] Building CXX object CMakeFiles/torch.dir/src/utils/StringHelper.cpp.o
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/utils/StringHelper.cpp:98:5: warning: 'vsprintf' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use vsnprintf(3) instead. [-Wdeprecated-declarations]
+   98 |     vsprintf_s(buffer, format, va);
+      |     ^
+/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch/src/utils/StringHelper.cpp:9:20: note: expanded from macro 'vsprintf_s'
+    9 | #define vsprintf_s vsprintf
+      |                    ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h:298:1: note: 'vsprintf' has been explicitly marked deprecated here
+  298 | __deprecated_msg("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of sprintf(3), it is highly recommended that you use vsnprintf(3) instead.")
+      | ^
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h:227:48: note: expanded from macro '__deprecated_msg'
+  227 |         #define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+      |                                                       ^
+1 warning generated.
+[138/155] Building CXX object CMakeFiles/torch.dir/src/preprocess/CompTool.cpp.o
+[139/155] Building C object CMakeFiles/torch.dir/_deps/libgfxd-src/uc_f3d.c.o
+[140/155] Linking CXX static library lib/binarytools/libBinaryTools.a
+[141/155] Linking C static library lib/n64graphics/libN64Graphics.a
+[142/155] Building CXX object CMakeFiles/torch.dir/src/types/Vec3D.cpp.o
+[143/155] Building C object CMakeFiles/torch.dir/_deps/libgfxd-src/uc_f3db.c.o
+[144/155] Linking CXX static library _deps/yaml-cpp-build/libyaml-cpp.a
+[145/155] Linking CXX static library _deps/spdlog-build/libspdlog.a
+[146/155] Linking CXX static library _deps/tinyxml2-build/libtinyxml2.a
+[147/155] Building C object CMakeFiles/torch.dir/_deps/libgfxd-src/uc_f3dex.c.o
+[148/155] Building C object CMakeFiles/torch.dir/_deps/libgfxd-src/uc_f3dexb.c.o
+[149/155] Building C object CMakeFiles/torch.dir/_deps/libgfxd-src/uc_f3dex2.c.o
+[150/155] Building CXX object CMakeFiles/torch.dir/src/factories/sm64/WaterDropletFactory.cpp.o
+[151/155] Building CXX object CMakeFiles/torch.dir/src/utils/Decompressor.cpp.o
+[152/155] Building CXX object CMakeFiles/torch.dir/src/utils/TorchUtils.cpp.o
+[153/155] Building CXX object CMakeFiles/torch.dir/src/main.cpp.o
+[154/155] Linking CXX executable torch
+ld: warning: ignoring duplicate libraries: '_deps/yaml-cpp-build/libyaml-cpp.a'
+[7/10] Performing install step for 'TorchExternal'
+[0/2] Re-checking globbed directories...
+[0/2] Install the project...
+-- Install configuration: "Release"
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/lib/libtinyxml2.a
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/lib/cmake/tinyxml2/tinyxml2-static-targets.cmake
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/lib/cmake/tinyxml2/tinyxml2-static-targets-release.cmake
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/lib/cmake/tinyxml2/tinyxml2-config.cmake
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/lib/cmake/tinyxml2/tinyxml2-config-version.cmake
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/include/tinyxml2.h
+-- Installing: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/torch/lib/pkgconfig/tinyxml2.pc
+[8/10] Completed 'TorchExternal'
+[9/10] cd /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart && /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch header -o baserom.us.z64 && /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch o2r baserom.us.z64 --additional-files meta/mods.toml && /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch pack assets spaghetti.o2r o2r && /usr/local/bin/cmake -E copy_if_different /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/mk64.o2r /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/mk64.o2r && /usr/local/bin/cmake -E copy_if_different /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/spaghetti.o2r /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/spaghetti.o2r
+FAILED: [code=105] CMakeFiles/ExtractAssets /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/CMakeFiles/ExtractAssets 
+cd /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart && /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch header -o baserom.us.z64 && /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch o2r baserom.us.z64 --additional-files meta/mods.toml && /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch pack assets spaghetti.o2r o2r && /usr/local/bin/cmake -E copy_if_different /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/mk64.o2r /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/mk64.o2r && /usr/local/bin/cmake -E copy_if_different /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/spaghetti.o2r /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/spaghetti.o2r
+Header - Generates headers only
+
+Usage: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/TorchExternal/src/TorchExternal-build/torch header [OPTIONS] <baserom.z64>
+
+Positionals:
+  <baserom.z64> TEXT:FILE REQUIRED
+
+Options:
+  -h,--help                   Print this help message and exit
+  -o,--otr                    OTR/O2R Mode
+  -s,--srcdir TEXT:DIR        Set source directory to locate config.yml and asset metadata for processing
+  -d,--destdir TEXT           Set destination directory to place headers to
+
+<baserom.z64>: File does not exist: baserom.us.z64
+Run with --help for more information.
+ninja: build stopped: subcommand failed.

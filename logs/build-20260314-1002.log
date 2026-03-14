@@ -1,0 +1,39 @@
+🔨 spmc-build.sh v0.10 — Sat Mar 14 10:02:47 CET 2026
+   Log: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/logs/build-20260314-1002.log
+
+📦 Step 1: Skipped (--skip-deps)
+
+🔧 Step 2: Xcode CLT
+   ✅ /Library/Developer/CommandLineTools
+
+📥 Step 3: Clone / update HarbourMasters/SpaghettiKart
+   Repo exists — pulling latest...
+Fetching submodule doxygen-awesome-css
+Fetching submodule libultraship
+Fetching submodule tools/blender/fast64
+Fetching submodule torch
+Already up to date.
+
+🎮 Step 4: ROM
+   ✅ ROM already in place:  12M
+
+⚙️  Step 5: CMake configure (Ninja, x86_64, Release)
+-- The C compiler identification is AppleClang 17.0.0.17000604
+-- The CXX compiler identification is AppleClang 17.0.0.17000604
+-- The ASM compiler identification is AppleClang
+-- Found assembler: /usr/bin/cc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Spaghetti Kart version: 0 Alfa
+-- The OBJCXX compiler identification is AppleClang 17.0.0.17000604
+-- Detecting OBJCXX compiler ABI info
+-- Detecting OBJCXX compiler ABI info - done
+-- Check for working OBJCXX compiler: /usr/bin/c++ - skipped

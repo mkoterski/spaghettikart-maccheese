@@ -1,0 +1,88 @@
+🔨 spmc-build.sh v0.10 — Sat Mar 14 09:56:28 CET 2026
+   Log: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/logs/build-20260314-0956.log
+
+📦 Step 1: Homebrew dependencies
+   ✅ cmake 4.2.3
+   ✅ ninja 1.13.2
+   ✅ git 2.53.0
+   ✅ python@3.14 3.14.3_1
+   ✅ sdl2 2.32.10
+   ✅ sdl2_net 2.2.0
+   ✅ libpng 1.6.55
+   ✅ glew 2.3.1
+   ✅ nlohmann-json 3.12.0
+   ✅ libzip 1.11.4_1
+   ✅ tinyxml2 11.0.0
+   ✅ spdlog 1.17.0
+   ✅ boost 1.90.0_1
+   ✅ libogg 1.3.6
+   ✅ libvorbis 1.3.7
+   ✅ vorbis-tools 1.4.3
+
+🔧 Step 2: Xcode CLT
+   ✅ /Library/Developer/CommandLineTools
+
+📥 Step 3: Clone / update HarbourMasters/SpaghettiKart
+   Cloning...
+Cloning into '/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart'...
+Submodule 'doxygen-awesome-css' (https://github.com/jothepro/doxygen-awesome-css.git) registered for path 'doxygen-awesome-css'
+Submodule 'libultraship' (https://github.com/Kenix3/libultraship) registered for path 'libultraship'
+Submodule 'tools/blender/fast64' (https://github.com/Fast-64/fast64.git) registered for path 'tools/blender/fast64'
+Submodule 'torch' (https://github.com/HarbourMasters/Torch) registered for path 'torch'
+Cloning into '/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/doxygen-awesome-css'...
+Cloning into '/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/libultraship'...
+Cloning into '/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/tools/blender/fast64'...
+Cloning into '/Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/torch'...
+Submodule path 'doxygen-awesome-css': checked out '9760c30014131f4eacb8e96f15f3869c7bc5dd8c'
+Submodule path 'libultraship': checked out '430aedccfb727d476b7dbc6662311e41889fac5e'
+Submodule path 'tools/blender/fast64': checked out 'd89593c8ccde9ef511e96ec1f0169988d60fc0a1'
+From https://github.com/HarbourMasters/Torch
+ * branch            2d474ddb8da8b213fbdbb49d0273ce31fa955f35 -> FETCH_HEAD
+Submodule path 'torch': checked out '2d474ddb8da8b213fbdbb49d0273ce31fa955f35'
+
+🎮 Step 4: ROM
+   📋 Copying ROM from roms/ → SpaghettiKart/...
+   ✅ ROM copied:  12M
+
+⚙️  Step 5: CMake configure (Ninja, x86_64, Release)
+-- The C compiler identification is AppleClang 17.0.0.17000604
+-- The CXX compiler identification is AppleClang 17.0.0.17000604
+-- The ASM compiler identification is AppleClang
+-- Found assembler: /usr/bin/cc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Spaghetti Kart version: 0 Alfa
+-- The OBJCXX compiler identification is AppleClang 17.0.0.17000604
+-- Detecting OBJCXX compiler ABI info
+-- Detecting OBJCXX compiler ABI info - done
+-- Check for working OBJCXX compiler: /usr/bin/c++ - skipped
+CMake Deprecation Warning at build-cmake/_deps/prism-src/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+CMake Error at /Library/Frameworks/SDL2.framework/Resources/CMake/sdl2-config.cmake:17 (message):
+  File or directory /Library/Headers referenced by variable SDL2_INCLUDE_DIR
+  does not exist !
+Call Stack (most recent call first):
+  /Library/Frameworks/SDL2.framework/Resources/CMake/sdl2-config.cmake:48 (set_and_check)
+  libultraship/cmake/dependencies/mac.cmake:35 (find_package)
+  libultraship/CMakeLists.txt:42 (include)
+
+
+-- Configuring incomplete, errors occurred!

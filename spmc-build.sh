@@ -14,17 +14,25 @@
 # ROM layout (place file here — shared across builds):
 #   roms/mk64.us.z64   🇺🇸 Mario Kart 64 US
 #                       SHA-1: 579C48E211AE952530FFC8738709F078D5DD215E
+#                       (copied to SpaghettiKart/baserom.us.z64 by this script)
 #
 # Log output:
 #   logs/build-<timestamp>.log   ← top-level logs/, survives rm -rf SpaghettiKart/
 #
 # CHANGELOG
+# v0.12 (2026-03-14) - Fix: ROM must be named baserom.us.z64 (not mk64.us.z64) —
+#                      upstream Torch expects this exact filename in the repo root;
+#                      updated ROM_DEST and all references
+# v0.11 (2026-03-14) - Fix: SDL2.framework at /Library/Frameworks/ has broken
+#                      sdl2-config.cmake referencing /Library/Headers — added
+#                      CMAKE_PREFIX_PATH=$(brew --prefix) and CMAKE_FIND_FRAMEWORK=LAST
+#                      to force Homebrew sdl2 over the system framework
 # v0.10 (2026-03-14) - Initial version; adapted from pdmv-build-macos.sh v0.16;
 #                      cmake+Ninja build; Homebrew deps inline; ROM auto-copy;
 #                      ExtractAssets + GenerateO2R targets; Release mode
 
 set -eo pipefail
-VERSION="0.10"
+VERSION="0.12"
 SCRIPT_DIR="${0:A:h}"
 ROM_SHA1="579C48E211AE952530FFC8738709F078D5DD215E"
 
@@ -110,18 +118,17 @@ fi
 
 # ── Step 4: ROM ───────────────────────────────────────────────────────────────
 
-# The ExtractAssets cmake target expects the ROM alongside the binary or at a
-# known path. We copy it into the repo root where Spaghettify's file picker
-# would normally place it. The ROM filename must be a .z64 N64 US dump.
+# The ExtractAssets cmake target runs Torch from the repo root and expects
+# the ROM at SpaghettiKart/baserom.us.z64 — this is the upstream convention.
 
 echo "" | tee -a "$LOGFILE"
 echo "🎮 Step 4: ROM" | tee -a "$LOGFILE"
 
-ROM_DEST="$REPO_DIR/mk64.us.z64"
+ROM_DEST="$REPO_DIR/baserom.us.z64"
 if [[ -f "$ROM_DEST" ]]; then
   echo "   ✅ ROM already in place: $(du -h "$ROM_DEST" | cut -f1)" | tee -a "$LOGFILE"
 elif [[ -f "$ROM_SOURCE" ]]; then
-  echo "   📋 Copying ROM from roms/ → SpaghettiKart/..." | tee -a "$LOGFILE"
+  echo "   📋 Copying ROM from roms/ → SpaghettiKart/baserom.us.z64..." | tee -a "$LOGFILE"
   cp "$ROM_SOURCE" "$ROM_DEST"
   echo "   ✅ ROM copied: $(du -h "$ROM_DEST" | cut -f1)" | tee -a "$LOGFILE"
 else
@@ -137,14 +144,25 @@ fi
 # CMAKE_OSX_ARCHITECTURES=x86_64 ensures an Intel binary even under Rosetta.
 # Ninja generator for maximum performance (per upstream BUILDING.md).
 # Release mode for packaging.
+#
+# CMAKE_PREFIX_PATH: force Homebrew sdl2 over /Library/Frameworks/SDL2.framework.
+# The framework's bundled sdl2-config.cmake references /Library/Headers which
+# doesn't exist on modern macOS, causing a cmake error in libultraship.
+# CMAKE_FIND_FRAMEWORK=LAST ensures cmake prefers Homebrew pkg-config/cmake
+# packages over any system-wide .framework bundles.
+
+BREW_PREFIX="$(brew --prefix)"
 
 echo "" | tee -a "$LOGFILE"
 echo "⚙️  Step 5: CMake configure (Ninja, x86_64, Release)" | tee -a "$LOGFILE"
+echo "   Homebrew prefix: $BREW_PREFIX" | tee -a "$LOGFILE"
 cmake -H"$REPO_DIR" \
   -B"$BUILD_DIR" \
   -GNinja \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DCMAKE_OSX_ARCHITECTURES=x86_64 \
+  -DCMAKE_PREFIX_PATH="$BREW_PREFIX" \
+  -DCMAKE_FIND_FRAMEWORK=LAST \
   -DNON_PORTABLE=OFF \
   2>&1 | tee -a "$LOGFILE"
 
