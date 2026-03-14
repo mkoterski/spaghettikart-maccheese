@@ -134,12 +134,20 @@ w ""
 # ── spaghettify.cfg.json ─────────────────────────────────────────────────────
 
 w "── spaghettify.cfg.json ─────────────────────────────────────────"
-CFG="$BUILD_DIR/spaghettify.cfg.json"
+CFG="$HOME/spaghettify.cfg.json"
 if [[ -f "$CFG" ]]; then
+  w "  Path: $CFG"
   head -40 "$CFG" >> "$OUTFILE" 2>/dev/null || true
 else
-  w "  Config not found at $CFG"
-  w "  (created automatically on first launch)"
+  # Fallback: check build dir (NON_PORTABLE=ON builds)
+  CFG="$BUILD_DIR/spaghettify.cfg.json"
+  if [[ -f "$CFG" ]]; then
+    w "  Path: $CFG"
+    head -40 "$CFG" >> "$OUTFILE" 2>/dev/null || true
+  else
+    w "  Config not found at ~/spaghettify.cfg.json or $BUILD_DIR/"
+    w "  (created automatically on first launch)"
+  fi
 fi
 w ""
 

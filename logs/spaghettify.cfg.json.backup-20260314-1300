@@ -1,0 +1,9 @@
+{
+    "Window": {
+        "AudioBackend": "sdl",
+        "Backend": {
+            "Id": 1,
+            "Name": "OpenGL"
+        }
+    }
+}

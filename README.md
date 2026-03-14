@@ -63,14 +63,33 @@ cp /path/to/your/mk64.z64 roms/mk64.us.z64
 
 ---
 
+## Config File Location
+
+The game's config file lives at **`~/spaghettify.cfg.json`** (your home directory),
+NOT in the build folder. This is because the game is built with `NON_PORTABLE=OFF`.
+
+The run script automatically patches this file to force OpenGL before each launch.
+Backups are stored in `logs/spaghettify.cfg.json.backup-<timestamp>`.
+
+> **Finding the config:** If the game ignores your settings, check for duplicate
+> config files:
+> ```zsh
+> find ~ -maxdepth 3 -name "spaghettify.cfg.json" 2>/dev/null
+> ```
+> The game reads whichever file libultraship resolves first — typically `~/`.
+
+---
+
 ## Graphics Backend
 
-SpaghettiKart supports both **OpenGL** and **Metal** on macOS.
+SpaghettiKart supports both **OpenGL** and **Metal** on macOS. The backend enum
+values come from `libultraship/include/ship/window/Window.h`:
 
 | Backend | Id | Notes |
 |---|---|---|
+| DX11 | 0 | Windows only |
+| OpenGL | 1 | **Default for Intel Mac** — safest on older Intel GPUs |
 | Metal | 2 | Upstream macOS default — crashes on Intel Iris Plus GPUs |
-| OpenGL | 3 | **Default for Intel Mac** — safest on older Intel GPUs |
 
 The run script defaults to OpenGL and patches `spaghettify.cfg.json` before
 launch. Switch backends with flags:
@@ -82,7 +101,11 @@ launch. Switch backends with flags:
 ```
 
 If the game crashes on startup, try the other backend. You can also edit
-`spaghettify.cfg.json` directly — change `"Backend"` → `"Id"` value (capital I).
+`~/spaghettify.cfg.json` directly — change `"Backend"` → `"Id"` value (capital I).
+
+> **Note:** The config file lives at `~/spaghettify.cfg.json` (your home
+> directory), not in the build folder. This is because the game is built with
+> `NON_PORTABLE=OFF`.
 
 ---
 
@@ -98,8 +121,9 @@ the app bundle at `Contents/Resources/mods/`.
 
 ## Config Backup & Restore
 
-The run script backs up `spaghettify.cfg.json` before every launch and
-restores it on exit (clean, Ctrl-C, or crash). To manually restore:
+The run script backs up `~/spaghettify.cfg.json` before every launch. The
+backend patch (OpenGL) persists across runs — no auto-restore on exit.
+To manually restore a previous config:
 
 ```zsh
 ./run-spmc-macos.sh --restore-cfg
@@ -121,18 +145,37 @@ spaghetti-themed background.
 
 ---
 
+## Known Issues (Intel Mac)
+
+| Issue | Backend | Status |
+|---|---|---|
+| Black screen + SIGFPE crash on track load | Metal (Id 2) | Upstream bug — Metal rendering fails on Intel Iris Plus |
+| Crash on track load (menus render fine) | OpenGL (Id 1) | Upstream bug — OpenGL context may hit deprecated codepath on Tahoe |
+| `gamecontrollerdb.txt` not found warning | Both | Cosmetic — does not affect gameplay |
+
+Both rendering crashes are upstream issues in HarbourMasters/SpaghettiKart and
+cannot be fixed in the wrapper scripts. File bug reports at:
+https://github.com/HarbourMasters/SpaghettiKart/issues
+
+Attach the output of `./spmc-collect-crash.sh` (bundles crash reports + system info).
+
+---
+
 ## Troubleshooting
 
 ```
 ❌ No ROM       → cp /path/to/mk64.z64 roms/mk64.us.z64
 ❌ Build fails  → tail -40 logs/build-*.log
-❌ Crash on run → ./run-spmc-macos.sh --metal   (or --opengl)
+❌ Black screen → Metal on Intel — game forces OpenGL via run script
+❌ Track crash  → Upstream bug on Intel GPUs — file issue with crash report
 ❌ dyld error   → brew reinstall sdl2 glew
 ❌ Gatekeeper   → xattr -cr "/path/to/SpaghettiKart MacCheese.app"
 ❌ Stale config → ./run-spmc-macos.sh --restore-cfg
+❌ Wrong config → find ~ -maxdepth 3 -name "spaghettify.cfg.json"
 ```
 
-Logs live in `logs/` at the project root (not inside `SpaghettiKart/`):
+Logs live in `logs/` at the project root (not inside `SpaghettiKart/`).
+Config lives at `~/spaghettify.cfg.json` (not in the build folder).
 
 ```zsh
 ls -lt logs/*.log | head -5       # list latest logs
@@ -155,6 +198,11 @@ Attach the output folder (`logs/crash-<timestamp>/`) when filing issues at
 
 Scripts start at `v0.10` and will reach `v1.0` after confirmed end-to-end
 working on a clean Intel Mac running macOS Tahoe.
+
+**Current status:** All scripts functional. Build pipeline works end-to-end
+(setup → build → extract → compile → launch with OpenGL). Game menus render
+correctly with OpenGL backend. Track-load crash is an upstream rendering bug
+on Intel Iris Plus GPUs — pending fix from HarbourMasters.
 
 ---
 

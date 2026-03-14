@@ -23,6 +23,13 @@
 #   logs/spaghettify.cfg.json.backup-<timestamp>
 #
 # CHANGELOG
+# v0.15 (2026-03-14) - Fix: config file lives at ~/spaghettify.cfg.json (not in
+#                      build-cmake/) when built with NON_PORTABLE=OFF; we were
+#                      patching the wrong file for 5 iterations!
+# v0.14 (2026-03-14) - Fix: OpenGL is Id 1, not 3 — enum WindowBackend in
+#                      libultraship is {DX11=0, OpenGL=1, Metal=2}; we were
+#                      writing Id 3 (WINDOW_BACKEND_COUNT) which is invalid,
+#                      causing silent fallback to Metal every time
 # v0.13 (2026-03-14) - Fix: config key is "Id" (capital I) not "id" — game was
 #                      ignoring our patch; also Metal is Id 2 in this build, not
 #                      4 as upstream README claims; patcher now removes stale
@@ -41,7 +48,7 @@
 #                      log rotation
 
 set -eo pipefail
-VERSION="0.13"
+VERSION="0.15"
 SCRIPT_DIR="${0:A:h}"
 LOG_KEEP=5
 
@@ -61,7 +68,9 @@ done
 
 REPO_DIR="$SCRIPT_DIR/SpaghettiKart"
 BUILD_DIR="$REPO_DIR/build-cmake"
-CFG_FILE="$BUILD_DIR/spaghettify.cfg.json"
+# Config file: libultraship with NON_PORTABLE=OFF writes config to ~/
+# not to the build directory. This is the file the game actually reads.
+CFG_FILE="$HOME/spaghettify.cfg.json"
 TIMESTAMP="$(date '+%Y%m%d-%H%M')"
 
 LOG_DIR="$SCRIPT_DIR/logs"
@@ -93,12 +102,12 @@ fi
 
 # ── Backend label ─────────────────────────────────────────────────────────────
 
-# Backend ids in libultraship (as seen in spaghettify.cfg.json):
-#   Metal  = Id 2 (macOS default — crashes on Intel Iris Plus)
-#   OpenGL = Id 3 (safest for Intel GPUs)
-# Note: The key is "Id" (capital I), not "id" — case-sensitive JSON.
+# Backend ids from libultraship enum WindowBackend in Window.h:
+#   FAST3D_DXGI_DX11   = 0  (Windows only)
+#   FAST3D_SDL_OPENGL  = 1  (all platforms — safest for Intel GPUs)
+#   FAST3D_SDL_METAL   = 2  (macOS default — crashes on Intel Iris Plus)
 case "$BACKEND" in
-  opengl) BACKEND_ID=3; BACKEND_NAME="OpenGL";  BACKEND_NOTE="(Intel Mac default — safest)" ;;
+  opengl) BACKEND_ID=1; BACKEND_NAME="OpenGL";  BACKEND_NOTE="(Intel Mac default — safest)" ;;
   metal)  BACKEND_ID=2; BACKEND_NAME="Metal";   BACKEND_NOTE="(upstream default — may have Intel GPU issues)" ;;
 esac
 
