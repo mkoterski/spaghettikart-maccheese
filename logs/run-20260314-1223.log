@@ -1,0 +1,118 @@
+🎮 run-spmc-macos.sh v0.13 — Sat Mar 14 12:23:32 CET 2026
+   Backend: OpenGL (Intel Mac default — safest)
+   Log:     /Users/matthias/Documents/GitHub/spaghettikart-maccheese/logs/run-20260314-1223.log
+2026-03-14 12:23:32 [info] Config backup → logs/spaghettify.cfg.json.backup-20260314-1223
+
+2026-03-14 12:23:32 [info] Patching backend → OpenGL (id 3)...
+   Patched: Backend → OpenGL (id 3)
+
+2026-03-14 12:23:32 [info] Preflight checks...
+2026-03-14 12:23:32 [info] Binary:  10M
+
+2026-03-14 12:23:33 [info] Launching SpaghettiKart (OpenGL)...
+[2026-03-14 12:23:33.108] [info] [ArchiveManager.cpp:243] Reading archive: /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/./spaghetti.o2r
+[2026-03-14 12:23:33.109] [info] [ArchiveManager.cpp:275] Adding Archive /Users/matthias/Documents/GitHub/spaghettikart-maccheese/SpaghettiKart/build-cmake/./spaghetti.o2r to Archive Manager
+[12:23:33.641] [Engine.cpp:187] [info] Spaghetti Kart 0
+[12:23:33.641] [Engine.cpp:188] [info] Debug Mode deactivated
+[12:23:33.686] [ModManager.cpp:238] [info] Loaded mod: mk64-assets
+Mod Name: mk64-assets
+Version: 1.0.0-alpha1
+Dependencies:
+
+[12:23:33.686] [ModManager.cpp:238] [info] Loaded mod: extended-assets
+Mod Name: extended-assets
+Version: 1.0.0-alpha1
+Dependencies:
+
+[12:23:33.686] [ModManager.cpp:289] [info] [ModManager] Detected Mods:
+[12:23:33.686] [ModManager.cpp:291] [info]  - spaghettikart-core v0.1.0
+[12:23:33.686] [ModManager.cpp:291] [info]  - mk64-assets v1.0.0-alpha1
+[12:23:33.686] [ModManager.cpp:291] [info]  - extended-assets v1.0.0-alpha1
+[12:23:33.729] [ArchiveManager.cpp:275] [info] Adding Archive ./mk64.o2r to Archive Manager
+[12:23:33.747] [ArchiveManager.cpp:275] [info] Adding Archive ./spaghetti.o2r to Archive Manager
+[12:23:33.750] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_8
+[12:23:33.751] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_10
+[12:23:33.752] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_18
+[12:23:33.753] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_15
+[12:23:33.754] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_19
+[12:23:33.754] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_13
+[12:23:33.754] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_7
+[12:23:33.754] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_16
+[12:23:33.755] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_4
+[12:23:33.755] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_14
+[12:23:33.755] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_5
+[12:23:33.764] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_0
+[12:23:33.764] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_1
+[12:23:33.765] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_2
+[12:23:33.765] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_3
+[12:23:33.765] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_6
+[12:23:33.765] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_9
+[12:23:33.765] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_11
+[12:23:33.766] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_12
+[12:23:33.766] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_17
+[12:23:33.766] [Engine.cpp:547] [info] Loaded bank: sound/banks/bank_20
+[12:23:33.766] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/moo_moo_farm
+[12:23:33.767] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/rainbow_road
+[12:23:33.767] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/battle_arenas
+[12:23:33.767] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/finish_2nd_4th_place
+[12:23:33.767] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/star_jingle
+[12:23:33.767] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/luigi_raceway
+[12:23:33.767] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/royal_raceway
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/vs_battle_results
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/frappe_snowland
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/double_deck
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/award_ceremony_1st_3rd
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/main_menu
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/finish_1st_place
+[12:23:33.768] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/start_grid_gp_vs
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/banshee_boardwalk
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/sound_player
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/title_screen
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/start_gird_time_attack
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/choco_mountain
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/yoshi_valley
+[12:23:33.769] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/block_fort
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/bowsers_castle
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/game_over
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/toads_turnpike
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/losing_results
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/award_ceremony_buildup
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/staff_roll
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/award_ceremony_4th_8th
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/finish_5th_8th_place
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/dk_jungle
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/kalimari_desert
+[12:23:33.770] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/wario_stadium
+[12:23:33.771] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/koopa_troopa_beach
+[12:23:33.771] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/final_lap_fanfare
+[12:23:33.771] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/winning_results
+[12:23:33.771] [Engine.cpp:557] [info] Loaded sequence: sound/sequences/mario_raceway
+[12:23:33.771] [Engine.cpp:563] [info] Audio thread started
+[12:23:33.772] [SceneManager.cpp:156] [info] [SceneManager] [LoadTrackInfo] Loading TrackInfo...
+[SceneManager] [LoadTrackInfoData] ResourceName: hm:harbour, Name: harbour, DebugName: harbour, Length: 100m
+[12:23:33.772] [SceneManager.cpp:182] [info] [SceneManager] [LoadTrackInfo] Loaded TrackInfo!
+
+[TrackBrowser] Added custom track harbour
+[Game] Registering Game Content...
+[Game] Game Content Registered!
+
+Pool Start: 0x102d98580, Pool End: 0x112d9857f, size: 0xFFFFFFF
+gNextFreeMemoryAddress: 0x102D98580
+
+[12:23:33.905] [os.cpp:23] [error] Failed add SDL game controller mappings from "./gamecontrollerdb.txt" (Invalid RWops)
+Editor: Loading Editor...
+Editor: Loading Complete!
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+[Registry] Invoking mk:luigi_raceway
+Loading Track 8
+[12:23:54.141] [code_800029B0.c:192] [debug] Setup Race!
+[12:23:54.141] [code_800029B0.c:193] [debug] Game Speed: 2

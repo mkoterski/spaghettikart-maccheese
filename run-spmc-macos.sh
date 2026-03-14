@@ -23,13 +23,25 @@
 #   logs/spaghettify.cfg.json.backup-<timestamp>
 #
 # CHANGELOG
+# v0.13 (2026-03-14) - Fix: config key is "Id" (capital I) not "id" — game was
+#                      ignoring our patch; also Metal is Id 2 in this build, not
+#                      4 as upstream README claims; patcher now removes stale
+#                      lowercase "id" key from earlier buggy runs
+# v0.12 (2026-03-14) - Fix: auto-restore trap was reverting OpenGL patch back
+#                      to Metal after every crash — removed auto-restore on exit;
+#                      backend patch now persists across runs; manual restore
+#                      still available via --restore-cfg
+# v0.11 (2026-03-14) - Fix: first launch had no config file to patch — game
+#                      created one with Metal default, causing black screen on
+#                      Intel GPU. Now seeds spaghettify.cfg.json with OpenGL
+#                      backend BEFORE launch if file doesn't exist yet.
 # v0.10 (2026-03-14) - Initial version; adapted from run-pdmv-macos.sh v0.12;
 #                      OpenGL default for Intel safety; --metal/--opengl flags;
 #                      spaghettify.cfg.json backend patching; config backup/restore;
 #                      log rotation
 
 set -eo pipefail
-VERSION="0.10"
+VERSION="0.13"
 SCRIPT_DIR="${0:A:h}"
 LOG_KEEP=5
 
@@ -81,34 +93,30 @@ fi
 
 # ── Backend label ─────────────────────────────────────────────────────────────
 
+# Backend ids in libultraship (as seen in spaghettify.cfg.json):
+#   Metal  = Id 2 (macOS default — crashes on Intel Iris Plus)
+#   OpenGL = Id 3 (safest for Intel GPUs)
+# Note: The key is "Id" (capital I), not "id" — case-sensitive JSON.
 case "$BACKEND" in
   opengl) BACKEND_ID=3; BACKEND_NAME="OpenGL";  BACKEND_NOTE="(Intel Mac default — safest)" ;;
-  metal)  BACKEND_ID=4; BACKEND_NAME="Metal";   BACKEND_NOTE="(upstream default — may have Intel GPU issues)" ;;
+  metal)  BACKEND_ID=2; BACKEND_NAME="Metal";   BACKEND_NOTE="(upstream default — may have Intel GPU issues)" ;;
 esac
 
 echo "🎮 run-spmc-macos.sh v$VERSION — $(date)" | tee -a "$LOGFILE"
 echo "   Backend: $BACKEND_NAME $BACKEND_NOTE" | tee -a "$LOGFILE"
 echo "   Log:     $LOGFILE" | tee -a "$LOGFILE"
 
-# ── Config backup + trap restore ──────────────────────────────────────────────
+# ── Config backup (no auto-restore) ───────────────────────────────────────────
 
-CFG_MODIFIED=0
-
-_restore_cfg() {
-  if (( CFG_MODIFIED )) && [[ -f "$CFG_BACKUP" ]]; then
-    cp "$CFG_BACKUP" "$CFG_FILE"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') [info] Config restored from backup" | tee -a "$LOGFILE"
-  fi
-}
-
-trap _restore_cfg EXIT INT TERM
+# Unlike perfectdark's pd.ini, we do NOT auto-restore config on exit.
+# The backend patch must persist so OpenGL sticks across crashes.
+# Use --restore-cfg to manually revert if needed.
 
 if [[ -f "$CFG_FILE" ]]; then
   cp "$CFG_FILE" "$CFG_BACKUP"
   echo "$(date '+%Y-%m-%d %H:%M:%S') [info] Config backup → ${CFG_BACKUP##$SCRIPT_DIR/}" | tee -a "$LOGFILE"
-  CFG_MODIFIED=1
 else
-  echo "$(date '+%Y-%m-%d %H:%M:%S') [info] No config file yet — will be created on first launch" | tee -a "$LOGFILE"
+  echo "$(date '+%Y-%m-%d %H:%M:%S') [info] No config file yet — will be seeded before launch" | tee -a "$LOGFILE"
 fi
 
 # ── Patch backend in config ───────────────────────────────────────────────────

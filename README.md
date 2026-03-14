@@ -19,7 +19,7 @@ Follows the same conventions as
 - Intel Mac (x86_64)
 - macOS 10.9 or later (tested on Tahoe 26.x)
 - Internet connection (first run only)
-- A legally obtained Mario Kart 64 US ROM (see above)
+- A Mario Kart 64 US ROM (see above)
 
 All other dependencies (Homebrew, cmake, ninja, SDL2, etc.) are installed
 automatically by the setup script.
@@ -67,10 +67,10 @@ cp /path/to/your/mk64.z64 roms/mk64.us.z64
 
 SpaghettiKart supports both **OpenGL** and **Metal** on macOS.
 
-| Backend | id | Notes |
+| Backend | Id | Notes |
 |---|---|---|
+| Metal | 2 | Upstream macOS default — crashes on Intel Iris Plus GPUs |
 | OpenGL | 3 | **Default for Intel Mac** — safest on older Intel GPUs |
-| Metal | 4 | Upstream macOS default — may have issues on some Intel GPUs |
 
 The run script defaults to OpenGL and patches `spaghettify.cfg.json` before
 launch. Switch backends with flags:
@@ -82,7 +82,7 @@ launch. Switch backends with flags:
 ```
 
 If the game crashes on startup, try the other backend. You can also edit
-`spaghettify.cfg.json` directly — change the `"Backend"` → `"id"` value.
+`spaghettify.cfg.json` directly — change `"Backend"` → `"Id"` value (capital I).
 
 ---
 
