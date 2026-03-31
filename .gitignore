@@ -3,3 +3,5 @@
 !roms/*.z64
 .DS_Store
 SpaghettiKart/
+# WIP test environment (not tracked)
+wip-test/
