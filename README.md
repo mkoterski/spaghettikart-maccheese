@@ -195,6 +195,35 @@ spaghetti-themed background.
 
 ---
 
+## WIP Discord Build Testing
+
+A WIP macOS Intel build (`spaghetti-mac-intel-x64.zip`, version `1.0.0-15-g7dba3c3c8`)
+was shared on the HarbourMasters Discord for testing. Results on MacBookPro16,2
+(Intel Iris Plus, Tahoe 26.3) are identical to source and nightly CI builds:
+
+| Build | Version | Backend | Menus | Track Load |
+|---|---|---|---|---|
+| Source build | `1.0.0-13-gf7aab65da` | OpenGL (Id 1) | OK | SIGFPE |
+| Source build | `1.0.0-13-gf7aab65da` | Metal (Id 2) | Black screen | SIGFPE |
+| Nightly CI | — | OpenGL (Id 1) | OK | SIGFPE |
+| Nightly CI | — | Metal (Id 2) | Black screen | SIGFPE |
+| WIP Discord | `1.0.0-15-g7dba3c3c8` | OpenGL (Id 1) | OK | SIGFPE |
+| WIP Discord | `1.0.0-15-g7dba3c3c8` | Metal (Id 2) | Black screen | SIGFPE |
+
+The crash occurs at the same point in all builds — after `Setup Race!` and
+`[Track] Loading... mk:luigi_raceway`, the process exits with
+`floating point exception`. The WIP build does not resolve the Intel Iris Plus
+rendering issue.
+
+> **Note:** The WIP zip is a portable build and reads config from its own
+> directory, not `~/spaghettify.cfg.json`. The `wip-test/` directory inside
+> this repo is gitignored and used for isolated testing.
+
+Full details and crash logs:
+[HarbourMasters/SpaghettiKart#681](https://github.com/HarbourMasters/SpaghettiKart/issues/681)
+
+---
+
 ## Known Issues (Intel Mac)
 
 | Issue | Backend | Status |
