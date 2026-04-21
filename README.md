@@ -54,7 +54,7 @@ cp /path/to/your/mk64.z64 roms/mk64.us.z64
 | Script | Version | Purpose |
 |---|---|---|
 | `spmc-initial-setup.sh` | v0.10 | One-time setup: Xcode CLT, Homebrew, 16 packages, ROM validation |
-| `spmc-build.sh` | v0.12 | Clone upstream, configure cmake+Ninja, extract assets, compile |
+| `spmc-build.sh` | v0.13 | Clone upstream, configure cmake+Ninja, extract assets, compile (always regenerates `spaghetti.o2r`) |
 | `spmc-bundle.sh` | v0.10 | Wrap binary as `SpaghettiKart MacCheese.app` |
 | `spmc-package.sh` | v0.10 | Create distributable `.dmg` |
 | `run-spmc-macos.sh` | v0.15 | Launch game (OpenGL backend patch, config backup) |
@@ -163,8 +163,12 @@ source tree. The symptom is a shader runtime error that looks like a missing
 file but is actually an extension mismatch between what the archive contains
 and what the binary looks up.
 
-Workaround until upstream adds a dependency from `GenerateO2R` to the
-`assets/` tree:
+As of `spmc-build.sh` v0.13, `GenerateO2R` runs unconditionally on every
+build, so fresh pulls from upstream will always produce a `spaghetti.o2r`
+that matches the current shader sources - no manual workaround needed.
+
+If for any reason you need to regenerate manually (e.g. running cmake
+directly without going through the wrapper script):
 
 ```zsh
 cd SpaghettiKart
@@ -173,9 +177,6 @@ cmake --build build-cmake --target GenerateO2R
 # verify the archive now matches the current shader sources
 unzip -l build-cmake/spaghetti.o2r | grep -i shader
 ```
-
-`spmc-build.sh` will invoke `GenerateO2R` explicitly in a future version to
-avoid this pitfall on fresh pulls.
 
 ---
 
