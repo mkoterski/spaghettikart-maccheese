@@ -20,6 +20,17 @@
 #   logs/build-<timestamp>.log   ← top-level logs/, survives rm -rf SpaghettiKart/
 #
 # CHANGELOG
+# v0.13 (2026-04-21) - Fix: always regenerate spaghetti.o2r via GenerateO2R on
+#                      every build. Previously the script skipped extraction
+#                      entirely when o2r files existed, which left stale
+#                      archives behind after upstream shader changes
+#                      (HarbourMasters/SpaghettiKart#687 combined .fs/.vs into
+#                      .glsl; existing spaghetti.o2r kept the old entries and
+#                      the binary aborted with a misleading "missing f3d.o2r?"
+#                      error). ExtractAssets is still guarded by the o2r
+#                      existence check for ROM re-extraction cost, but
+#                      GenerateO2R runs unconditionally so shader/asset
+#                      source changes always make it into the archive.
 # v0.12 (2026-03-14) - Fix: ROM must be named baserom.us.z64 (not mk64.us.z64) —
 #                      upstream Torch expects this exact filename in the repo root;
 #                      updated ROM_DEST and all references
@@ -32,7 +43,7 @@
 #                      ExtractAssets + GenerateO2R targets; Release mode
 
 set -eo pipefail
-VERSION="0.12"
+VERSION="0.13"
 SCRIPT_DIR="${0:A:h}"
 ROM_SHA1="579C48E211AE952530FFC8738709F078D5DD215E"
 
@@ -168,19 +179,28 @@ cmake -H"$REPO_DIR" \
 
 # ── Step 6: Extract assets ────────────────────────────────────────────────────
 
-# ExtractAssets generates mk64.o2r (from ROM) and spaghetti.o2r (from yamls/).
-# If the ROM isn't found the target will fail — that's expected and the error
-# message from upstream is clear enough.
+# ExtractAssets generates mk64.o2r (from ROM, slow — minutes). It is guarded
+# by an existence check for mk64.o2r since re-extracting the ROM every build
+# is expensive and the ROM contents are stable.
+#
+# GenerateO2R generates spaghetti.o2r (from assets/shaders/, yamls/, etc. —
+# seconds). This runs unconditionally on every build because cmake does not
+# track the assets/ tree as a dependency of this custom target: upstream
+# changes under assets/shaders/ (e.g. the #687 .fs/.vs → .glsl consolidation)
+# slip past the check silently and leave a stale archive that causes
+# runtime shader-load errors at launch. Paying a few seconds of torch time
+# every build is much cheaper than debugging the resulting "missing f3d.o2r?"
+# abort.
 
 echo "" | tee -a "$LOGFILE"
 echo "📦 Step 6: Extract assets (mk64.o2r + spaghetti.o2r)" | tee -a "$LOGFILE"
 
-# Check if o2r files already exist — skip extraction if so
-if [[ -f "$BUILD_DIR/mk64.o2r" && -f "$BUILD_DIR/spaghetti.o2r" ]]; then
+# 6a. ExtractAssets — cached on mk64.o2r existence (ROM extraction is slow).
+if [[ -f "$BUILD_DIR/mk64.o2r" ]]; then
   echo "   ✅ mk64.o2r already exists: $(du -h "$BUILD_DIR/mk64.o2r" | cut -f1)" | tee -a "$LOGFILE"
-  echo "   ✅ spaghetti.o2r already exists: $(du -h "$BUILD_DIR/spaghetti.o2r" | cut -f1)" | tee -a "$LOGFILE"
-  echo "   (Delete these files and re-run to force re-extraction)" | tee -a "$LOGFILE"
+  echo "   (Delete mk64.o2r and re-run to force ROM re-extraction)" | tee -a "$LOGFILE"
 else
+  echo "   Running ExtractAssets (ROM → mk64.o2r)..." | tee -a "$LOGFILE"
   cmake --build "$BUILD_DIR" --target ExtractAssets 2>&1 | tee -a "$LOGFILE"
   if [[ -f "$BUILD_DIR/mk64.o2r" ]]; then
     echo "   ✅ mk64.o2r: $(du -h "$BUILD_DIR/mk64.o2r" | cut -f1)" | tee -a "$LOGFILE"
@@ -190,6 +210,20 @@ else
       [[ -f "$o2r" ]] && echo "   ✅ mk64.o2r found at: $o2r" | tee -a "$LOGFILE" && break
     done
   fi
+fi
+
+# 6b. GenerateO2R — unconditional (torch pack is fast; staleness bugs are not).
+# Remove any prior spaghetti.o2r copies first so the freshly packed archive
+# is what cmake's copy_if_different sees. Covers both source-root and build-
+# tree locations since GenerateO2R writes to the source root and then copies
+# into build-cmake/.
+echo "   Regenerating spaghetti.o2r via GenerateO2R..." | tee -a "$LOGFILE"
+rm -f "$REPO_DIR/spaghetti.o2r" "$BUILD_DIR/spaghetti.o2r"
+cmake --build "$BUILD_DIR" --target GenerateO2R 2>&1 | tee -a "$LOGFILE"
+if [[ -f "$BUILD_DIR/spaghetti.o2r" ]]; then
+  echo "   ✅ spaghetti.o2r: $(du -h "$BUILD_DIR/spaghetti.o2r" | cut -f1)" | tee -a "$LOGFILE"
+else
+  echo "   ⚠️  spaghetti.o2r not found in $BUILD_DIR after GenerateO2R — build will likely fail at runtime." | tee -a "$LOGFILE"
 fi
 
 # ── Step 7: Build ─────────────────────────────────────────────────────────────
